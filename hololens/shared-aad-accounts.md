@@ -36,8 +36,13 @@ Shared Microsoft Entra (formerly Azure Active Directory) accounts on HoloLens ar
 > [!NOTE]
 >  Since these are shared accounts, users using these accounts are not shown the typical first sign-in setup screens, including PIN and iris enrollments, biometric data collection notice, and various consent screens. You should ensure that the appropriate defaults are configured for these accounts via policy (see [Set up users on HoloLens 2 quickly](/hololens2-new-user-optimize?tabs=firstBlank%2CsecondBlank#additional-policies)) and that your users are aware of these defaults.
 
-### Known limitations of shared Microsoft Entra accounts
-- Shared Microsoft Entra accounts cannot use PIN or iris to sign-in in the current release, even if they've been enrolled.
+### Key consideration of shared Microsoft Entra accounts
+- Shared Microsoft Entra accounts do not use PIN or IRIS to sign into the device. Feedback from customers using "Generic" or "Service" account deployed traditionally is that a PIN was often stuck on the side of the device, or set to "123456" or similar. Therefore, the simple sign in button simplifies the login process, without changing the security posture of the device.
+
+## Conceptual Overview of Shared Microsoft Entra Accounts
+This process will allow a HoloLens device, to be allocated a user account, and sign into that user account with credentials that are linked to the device, and the device alone. The image describes the process
+
+
 
 ## Overview of the steps to configure shared Microsoft Entra accounts
 
@@ -60,8 +65,14 @@ In addition to having the required operating system build on your HoloLens, you 
 
 Finally, you need access to Microsoft Intune in order to deploy device configurations and client certificates. For required infrastructure to deploy client certificates via Intune, see [Learn about the types of certificate that are supported by Microsoft Intune](/mem/intune/protect/certificates-configure#whats-required-to-use-certificates). In this example, we use SCEP certificates.
 
+
+
 > [!NOTE]
-> If you already have NDES configured in your environment and you wish to use a different template for shared accounts on the same server, refer to [Configuring infrastructure to support SCEP with Intune](/mem/intune/protect/certificates-scep-configure#configure-the-ndes-service) and use a different certificate template __Purpose__ to distinguish the template used for shared accounts.
+> Multiple options are available to deploy SCEP certificates, including Microsoft NDES and PKI. For HoloLens use, it can be simpler to use an azure service to handle certificate enrollment. Multiple options are available within the ([Azure Marketplace](https://azuremarketplace.microsoft.com/en-gb/marketplace/apps?search=SCEP&page=1), which allows the configurations for HoloLens use to be isolated from your corporate PKI.
+>
+> The key requirements for the SCEP service, are:
+>  1. The service can accept device certificate requests from Microsoft Intune
+>  2. The service can generate certificates with defined EKU's (Client Authentication and Smart Card Logon)
 
 It's highly recommended to configure your devices for [Autopilot](/hololens/hololens2-autopilot). Autopilot simplifies the device setup experience for end users.
 
