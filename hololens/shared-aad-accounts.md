@@ -42,7 +42,14 @@ Shared Microsoft Entra (formerly Azure Active Directory) accounts on HoloLens ar
 ## Conceptual Overview of Shared Microsoft Entra Accounts
 This process will allow a HoloLens device, to be allocated a user account, and sign into that user account with credentials that are linked to the device, and the device alone. The image describes the process
 
+[!IMAGE /hololens/images/Shared%20Account%20Login.png] "Conceptual Diagram"
 
+1. Intune has a SCEP Configuration profile for the SCEP Service
+2. The device will join Intune, and receive the profile information
+3. The device will contact the SCEP Service, and recieve a Device certificate, with a UPN of HL-{Serial}@contoso.com
+4. The device will log into the corrosponding user account in Entra ID, using the certificate as MFA, to provide a seamless sign on experience
+
+The certificate cannot be removed / exported from the device, and the user account is configured with no other form of MFA avaialable. This ensures that this shared account can only be logged into by the HoloLens Device
 
 ## Overview of the steps to configure shared Microsoft Entra accounts
 
